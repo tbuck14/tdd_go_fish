@@ -14,22 +14,22 @@ describe "#SocketClient" do
     @server.close
   end
 
-  #capture_output
-  it 'recieves output from the server' do 
-    client = SocketClient.new(3336)
-    @clients.push(client)
-    socket = @server.accept_nonblock
-    socket.puts('welcome')
-    expect(client.capture_output).to(eq('welcome'))
+  context '#capture_output' do
+    it 'recieves output from the server' do 
+        client = SocketClient.new(3336)
+        @clients.push(client)
+        socket = @server.accept_nonblock
+        socket.puts('welcome')
+        expect(client.capture_output).to(eq('welcome'))
+    end
   end
-
-   #provide_input
-   it 'sends messages to the server' do 
-      client = SocketClient.new(3336)
-      @clients.push(client)
-      socket = @server.accept_nonblock
-      client.provide_input('hello world')
-      expect(socket.gets.chomp).to(eq('hello world'))
-   end
-
+    context '#provide_input' do 
+        it 'sends messages to the server' do 
+            client = SocketClient.new(3336)
+            @clients.push(client)
+            socket = @server.accept_nonblock
+            client.provide_input('hello world')
+            expect(socket.gets.chomp).to(eq('hello world'))
+        end
+    end
 end
