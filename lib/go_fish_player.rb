@@ -17,6 +17,6 @@ class GoFishPlayer
         @hand.pop()
     end
 
-    def check_hand()
+    def check_hand_for(rank)
     end
 end
