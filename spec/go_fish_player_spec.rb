@@ -43,4 +43,37 @@ describe 'GoFishPlayer' do
             expect(player.cards_left).to(eq(1))
         end
     end
+
+    context '#check_for_book' do 
+        it 'checks for cards of a rank but does not remove them unless there is a full book' do 
+            player = GoFishPlayer.new('trevor',[PlayingCard.new('A','spades'),PlayingCard.new('A','hearts'),PlayingCard.new('A','clubs')])
+            returned_cards = player.check_for_book('A')
+            expect(returned_cards.count).to(eq(3))
+            expect(player.cards_left).to(eq(3))
+        end
+        it 'checks for cards of a rank and removes them if there is a full book' do 
+            player = GoFishPlayer.new('trevor',[PlayingCard.new('A','spades'),PlayingCard.new('A','hearts'),PlayingCard.new('A','clubs'),PlayingCard.new('A','diamonds')])
+            returned_cards = player.check_for_book('A')
+            expect(returned_cards.count).to(eq(4))
+            expect(player.cards_left).to(eq(0))
+        end
+    end
+
+    context '#lay_book' do 
+        it 'returns true if a book was layed' do 
+            player = GoFishPlayer.new('trevor',[PlayingCard.new('A','spades'),PlayingCard.new('A','hearts'),PlayingCard.new('A','clubs'),PlayingCard.new('A','diamonds')])
+            expect(player.lay_book()).to(eq(true))
+        end
+        it 'returns false if no book was layed' do 
+            player = GoFishPlayer.new('trevor',[PlayingCard.new('A','spades'),PlayingCard.new('A','clubs'),PlayingCard.new('A','diamonds')])
+            expect(player.lay_book()).to(eq(false))
+        end
+        it 'adds won book to books array' do 
+            player = GoFishPlayer.new('trevor',[PlayingCard.new('A','spades'),PlayingCard.new('A','hearts'),PlayingCard.new('A','clubs'),PlayingCard.new('A','diamonds')])
+            expect(player.books.count).to eq 0
+            expect(player.lay_book()).to(eq(true))
+            expect(player.books.count).to eq 1
+        end
+    end
+    
 end

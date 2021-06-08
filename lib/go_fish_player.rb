@@ -6,7 +6,7 @@ class GoFishPlayer
         @name = name
         @books = []
     end
-    
+
     def take_cards(cards) 
        cards.shuffle!
        @hand.unshift(cards).flatten!
@@ -26,8 +26,21 @@ class GoFishPlayer
         return cards_to_return if cards_to_return.count != 0 
     end
     
-    def lay_book(rank)
-        @books.push(rank)
+    def lay_book() 
+        @hand.each do |card|
+            if check_for_book(card.rank).count == 4
+                @books.push(card.rank)
+                return true
+            end
+        end
+        false
+    end
+
+    def check_for_book(rank)
+        cards_to_return = []
+        @hand.each {|card| cards_to_return.push(card) if card.rank == rank}
+        cards_to_return = check_hand_for(rank) if cards_to_return.count == 4
+        cards_to_return 
     end
 
 end
