@@ -41,7 +41,7 @@ class SocketServer
     end
 
     def create_game_if_possible
-        if @players.length == 5
+        if @players.length == 3
             game = GoFishGame.new(get_go_fish_players)
             @games.push(game)
             set_game_with_players(game)
