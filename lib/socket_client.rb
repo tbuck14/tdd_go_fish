@@ -4,8 +4,8 @@ class SocketClient
   attr_reader :socket
   attr_accessor :output
 
-  def initialize(port)
-    @socket = TCPSocket.new('localhost',port)
+  def initialize(host,port)
+    @socket = TCPSocket.new(host,port)
   end
 
   def provide_input(text)
@@ -25,12 +25,9 @@ class SocketClient
 end
 
 
-
-
-
 #CLIENT RUNNER SCRIPT
 
-client = SocketClient.new(3336)
+client = SocketClient.new('10.0.0.185',3336)
 loop do 
   server_message = ""
   until server_message != ""

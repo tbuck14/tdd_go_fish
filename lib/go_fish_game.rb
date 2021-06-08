@@ -54,7 +54,7 @@ class GoFishGame
     def update_round_info(player,card_asked_for,player_asked,did_get_card)
         got_card = "got one or more" if did_get_card
         got_card = "did not get it" if did_get_card == false
-        @round_info += "#{player.name} asked for #{card_asked_for} from #{player_asked.name} and #{got_card}"
+        @round_info += "#{player.name} asked for a #{card_asked_for} from #{player_asked.name} and #{got_card}"
     end
 
 end
