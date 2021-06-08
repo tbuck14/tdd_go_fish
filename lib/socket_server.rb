@@ -23,17 +23,17 @@ class SocketServer
 
     def start
         puts "Server Started!"
-        self.server = TCPServer.new(port_number)
+        @server = TCPServer.new(port_number)
     end
 
     def stop
-        server.close if server
+        @server.close if @server
     end
 
     def accept_new_client(player_name = "Random Player")
-        client = server.accept_nonblock
+        client = @server.accept_nonblock
         player = PlayerInterfacing.new(GoFishPlayer.new(player_name),client)
-        players.push(player)
+        @players.push(player)
         player.client.puts("Welcome to go fish! you are #{player_name}")
         puts "Client #{player_name} Connected!"
         return client
@@ -41,18 +41,18 @@ class SocketServer
     end
 
     def create_game_if_possible
-        if players.length == 3
+        if @players.length == 3
             game = GoFishGame.new(get_go_fish_players)
-            games.push(game)
+            @games.push(game)
             set_game_with_players(game)
-            self.players = []
+            @players = []
             return game
         end
     end
 
     def play_full_game(game)
         until game.winner do
-            game_with_players[game].each do |name,player|
+            @game_with_players[game].each do |name,player|
                 ask_player_what_card(game,player) 
                 send_players_message(game,game.round_info)
             end
@@ -66,24 +66,24 @@ class SocketServer
 
     def capture_output(game,player)
         sleep(0.1)
-        self.output = player.client.read_nonblock(1000).chomp 
+        @output = player.client.read_nonblock(1000).chomp 
         rescue IO::WaitReadable
-        self.output = ""
+        @output = ""
     end
 
     def get_go_fish_players()
-        players = []
-        players.each do |playerInterface|
-            players.push(playerInterface.player)
+        fish_players = []
+        @players.each do |playerInterface|
+            fish_players.push(playerInterface.player)
         end
-        players
+        fish_players
     end
 
     def set_game_with_players(game)
-        self.game_with_players[game] = {}
+        @game_with_players[game] = {}
         player_number = 1
-        players.each do |playerInterface|
-            self.game_with_players[game]["player#{player_number}"] = playerInterface 
+        @players.each do |playerInterface|
+            @game_with_players[game]["player#{player_number}"] = playerInterface 
             player_number += 1
         end
     end
@@ -106,7 +106,7 @@ class SocketServer
     def get_player_asked(game,playerInterface)
         answer = send_player_message_expect_response(game,playerInterface,"who do you want to ask? options: #{display_askable_players(game,playerInterface)}")
         if display_askable_players(game,playerInterface).include?(answer)
-            return game_with_players[game][answer].player
+            return @game_with_players[game][answer].player
         else
             provide_input(playerInterface.client,'not a valid player!! try again')
             get_player_asked(game,playerInterface)
@@ -124,7 +124,7 @@ class SocketServer
     end
 
     def send_players_message(game,message)
-        game_with_players[game].each do |name,player|
+        @game_with_players[game].each do |name,player|
             provide_input(player.client,message)
         end
     end
@@ -139,16 +139,16 @@ class SocketServer
     end
 
     def display_hand(player)
-        hand = 'YOUR HAND: '
+        player_hand = 'YOUR HAND: '
         player.hand.each do |card|
-            hand += "[#{card.rank}]"
+            player_hand += "[#{card.rank}]"
         end
-        hand
+        player_hand
     end
 
     def display_askable_players(game,playerInterface)
-        player_names = game_with_players[game].keys
-        player_names = player_names.reject {|name| name == game_with_players[game].key(playerInterface)}
+        player_names = @game_with_players[game].keys
+        player_names = player_names.reject {|name| name == @game_with_players[game].key(playerInterface)}
         player_names
     end
 end

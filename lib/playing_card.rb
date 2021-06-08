@@ -6,7 +6,7 @@ class PlayingCard
         @suit = suit
     end
     def value 
-        VALUE_HASH[rank]
+        VALUE_HASH[@rank]
     end
 
 end

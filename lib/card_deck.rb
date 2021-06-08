@@ -19,12 +19,12 @@ class CardDeck
     end
   
     def deal
-      self.cards_left -=1
-      deck.pop()
+      @cards_left -=1
+      @deck.pop()
     end
   
     def shuffle 
-      deck.shuffle!
+      @deck.shuffle!
     end
 
 end

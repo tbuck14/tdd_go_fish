@@ -5,22 +5,22 @@ class SocketClient
   attr_accessor :output
 
   def initialize(port)
-    @socket = TCPSocket.new('localhost', port)
+    @socket = TCPSocket.new(port)
   end
 
   def provide_input(text)
-    socket.puts(text)
+    @socket.puts(text)
   end
 
   def capture_output(delay=0.1)
     sleep(delay)
-    self.output = socket.read_nonblock(1000).chomp # not gets which blocks
+    @output = socket.read_nonblock(1000).chomp # not gets which blocks
   rescue IO::WaitReadable
-    self.output = ""
+    @output = ""
   end
 
   def close
-    socket.close if socket
+    @socket.close if @socket
   end
 end
 
