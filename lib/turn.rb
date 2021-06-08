@@ -19,8 +19,10 @@ class Turn
     end
 
     def go_fish()
-        @card_awarded = @deck.deal
-        @player.take_cards([@card_awarded])
+        if @deck.cards_left != 0 
+            @card_awarded = @deck.deal
+            @player.take_cards([@card_awarded])
+        end
     end
 
     def got_card_asked_for()

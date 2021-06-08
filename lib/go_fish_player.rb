@@ -8,8 +8,8 @@ class GoFishPlayer
     end
 
     def take_cards(cards) 
-       cards.shuffle!
        @hand.unshift(cards).flatten!
+       @hand = @hand.sort_by {|card| card.value}
        @cards_left += cards.count
     end
 
