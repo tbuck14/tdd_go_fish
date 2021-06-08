@@ -1,5 +1,5 @@
 class CardDeck
-
+    attr_accessor :deck, :cards_left
     def initialize
       @cards_left = 52
       #Standard unshuffled card deck (the end of the array represents the top of the deck)
@@ -17,18 +17,14 @@ class CardDeck
       PlayingCard.new('10','diamonds'),PlayingCard.new('J','diamonds'),PlayingCard.new('Q','diamonds'),PlayingCard.new('K','diamonds'),
       PlayingCard.new('A','diamonds')]
     end
-    
-    def cards_left
-      @cards_left
-    end
   
     def deal
-      @cards_left -=1
-      @deck.pop()
+      self.cards_left -=1
+      deck.pop()
     end
   
     def shuffle 
-      @deck.shuffle!
+      deck.shuffle!
     end
-  
+
 end
