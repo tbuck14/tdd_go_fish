@@ -5,7 +5,7 @@ class SocketClient
   attr_accessor :output
 
   def initialize(port)
-    @socket = TCPSocket.new(port)
+    @socket = TCPSocket.new('localhost',port)
   end
 
   def provide_input(text)
