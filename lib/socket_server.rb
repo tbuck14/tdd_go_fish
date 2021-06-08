@@ -105,8 +105,8 @@ class SocketServer
     end
 
     def get_player_asked(game,playerInterface)
-        answer = send_player_message_expect_response(game,playerInterface,"who do you want to ask? options: #{@game_with_players[game].keys}")
-        if @game_with_players[game].keys.include?(answer)
+        answer = send_player_message_expect_response(game,playerInterface,"who do you want to ask? options: #{display_askable_players(game,playerInterface)}")
+        if display_askable_players(game,playerInterface).include?(answer)
             return @game_with_players[game][answer].player
         else
             provide_input(playerInterface.client,'not a valid player!! try again')
@@ -145,6 +145,12 @@ class SocketServer
             hand += "[#{card.rank}]"
         end
         hand
+    end
+
+    def display_askable_players(game,playerInterface)
+        player_names = @game_with_players[game].keys
+        player_names = player_names.reject {|name| name == @game_with_players[game].key(playerInterface)}
+        player_names
     end
 end
 
