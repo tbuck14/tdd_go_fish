@@ -30,14 +30,14 @@ end
 
 #CLIENT RUNNER SCRIPT
 
-# client = SocketClient.new(3336)
-# loop do 
-#   server_message = ""
-#   until server_message != ""
-#     server_message = client.capture_output
-#   end
-#   puts(server_message)
-#   if server_message.include?("do you want")
-#     client.provide_input(gets.chomp)
-#   end
-# end
+client = SocketClient.new(3336)
+loop do 
+  server_message = ""
+  until server_message != ""
+    server_message = client.capture_output
+  end
+  puts(server_message)
+  if server_message.include?("do you want")
+    client.provide_input(gets.chomp)
+  end
+end

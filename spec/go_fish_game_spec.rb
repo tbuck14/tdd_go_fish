@@ -48,9 +48,23 @@ describe '#GoFishGame' do
             expect(player2.cards_left).to(eq(1))
         end
         
-        it '' do
+        it 'lays a book if the player has one in their hand' do
+            player1 = GoFishPlayer.new('trevor',[PlayingCard.new('A','spades'),PlayingCard.new('A','hearts'),PlayingCard.new('A','clubs'),PlayingCard.new('A','diamonds')])
+            player2 = GoFishPlayer.new('player2',[PlayingCard.new('2','spades')])
+            game = GoFishGame.new([player1,player2])
+            game.player_take_turn(player1,'3',player2)
+            expect(player1.books.count).to eq 1
         end
     end
 
+    context '#try_to_lay_book' do 
+        it 'adds book if a book can be layed' do 
+            player1 = GoFishPlayer.new('trevor',[PlayingCard.new('A','spades'),PlayingCard.new('A','hearts'),PlayingCard.new('A','clubs'),PlayingCard.new('A','diamonds')])
+            player2 = GoFishPlayer.new('player2',[PlayingCard.new('2','spades')])
+            game = GoFishGame.new([player1,player2])
+            game.try_to_lay_book(player1)
+            expect(game.books_layed).to(eq(1))
+        end
+    end
 
 end

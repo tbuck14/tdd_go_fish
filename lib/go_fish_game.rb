@@ -59,6 +59,7 @@ class GoFishGame
             add_to_books(1)
         end
     end
+    
     def update_round_info(player,card_asked_for,player_asked,did_get_card)
         got_card = "got one or more" if did_get_card
         got_card = "did not get it" if did_get_card == false
